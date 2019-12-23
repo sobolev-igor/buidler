@@ -1,62 +1,15 @@
 import { BuidlerPluginError } from "@nomiclabs/buidler/internal/core/errors";
 import debug from "debug";
 import { URL } from "url";
+import { GanacheOptions } from "./types";
 
 const log = debug("buidler:plugin:ganache-service");
-
-declare interface GanacheOptions {
-  url: string;
-  keepAliveTimeout?: number;
-  accountKeysPath?: string; // Translates to: account_keys_path
-  accounts?: object[];
-  allowUnlimitedContractSize?: boolean;
-  blockTime?: number;
-  dbPath?: string; // Translates to: db_path
-  debug?: boolean;
-  defaultBalanceEther?: number; // Translates to: default_balance_ether
-  fork?: string | object;
-  forkBlockNumber?: string | number; // Translates to: fork_block_number
-  gasLimit?: number;
-  gasPrice?: string | number;
-  hardfork?: "byzantium" | "constantinople" | "petersburg";
-  hdPath?: string; // Translates to: hd_path
-  hostname?: string;
-  locked?: boolean;
-  logger?: {
-    log(msg: string): void;
-  };
-  mnemonic?: string;
-  networkId?: number;
-  port?: number;
-  seed?: any;
-  time?: any; // Date
-  totalAccounts?: number; // Translates to: total_accounts
-  unlockedAccounts?: string[]; // Translates to: unlocked_accounts
-  verbose?: boolean;
-  vmErrorsOnRPCResponse?: boolean;
-  ws?: boolean;
-}
 
 const DEFAULT_PORT = 7545;
 
 export class GanacheService {
   public static error?: Error;
   public static optionValidator: any;
-
-  public static getDefaultOptions(): GanacheOptions {
-    return {
-      url: `http://127.0.0.1:${DEFAULT_PORT}`,
-      gasPrice: 20000000000,
-      gasLimit: 6721975,
-      defaultBalanceEther: 100,
-      totalAccounts: 10,
-      hardfork: "petersburg",
-      allowUnlimitedContractSize: false,
-      locked: false,
-      hdPath: "m/44'/60'/0'/0/",
-      keepAliveTimeout: 5000
-    };
-  }
 
   public static async create(options: any): Promise<GanacheService> {
     // We use this weird way of importing this library here as a workaround

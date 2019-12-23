@@ -4,6 +4,7 @@ import {
 } from "@nomiclabs/buidler/builtin-tasks/task-names";
 import { extendConfig, task } from "@nomiclabs/buidler/config";
 import { ensurePluginLoadedWithUsePlugin } from "@nomiclabs/buidler/plugins";
+import { getDefaultGanacheOptions } from "./config";
 import {
   BuidlerRuntimeEnvironment,
   RunSuperFunction,
@@ -27,7 +28,7 @@ export default function() {
   });
 
   extendConfig((resolvedConfig: any, config: any) => {
-    const defaultOptions = GanacheService.getDefaultOptions();
+    const defaultOptions = getDefaultGanacheOptions(config);
 
     if (config.networks && config.networks.ganache) {
       const customOptions = config.networks.ganache;
